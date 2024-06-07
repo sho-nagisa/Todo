@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "Add Task";
+}
+@model Todo.Models.Home.TaskForm
+
+
+<div class="row row-cols-auto border-bottom">
+    <div class="col-10">
+        <h2>タスク追加フォーム</h2>
+    </div>
+    <div class="col">
+        <button data-bs-toggle="modal" data-bs-target="#exampleModal3" class="btn btn-outline-primary">テンプレート選択</button><br>
+    </div>
+</div>
+
+
+
+
+<div class="addTaskForm">
+    <div class="position-absolute top-50 start-50 translate-middle">
+    <form asp-action="addTask2" asp-controller="Home" method="post">
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-4"><label asp-for="@Model.taskName">タイトル</label></li>
+                    <li class="list-group-item col-8"><input asp-for="@Model.taskName" class="form-control" type="text" required maxlength="20" /></li>
+                </ul>
+            </div>
+    
+
+
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-4"><label asp-for="@Model.teamName">チーム</label></li>
+                    <li class="list-group-item col-8"><input asp-for="@Model.teamName" class="form-control" type="text" required maxlength="20" /></li>
+                </ul>
+            </div>
+    
+
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-4"><label asp-for="@Model.managerName">担当者</label></li>
+                    <li class="list-group-item col-8"><input asp-for="@Model.managerName" class="form-control" type="text" required maxlength="20" /></li>
+                </ul>
+            </div>
+    
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-4"><label asp-for="@Model.limitTime">期限</label></li>
+                    <li class="list-group-item col-8"><input asp-for="@Model.limitTime" class="form-control" type="date" required/></li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-4"><label asp-for="@Model.comment">コメント</label></li>
+                    <li class="list-group-item col-8"><textarea asp-for="@Model.comment" class="form-control" type="text" maxlength="40"></textarea></li>
+                </ul>
+            </div>
+    
+            <div class="text-center mt-3">
+                <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="Index">キャンセル</a>
+                <button type="submit" class="btn btn-outline-warning">追加</button>
+            </div>
+    </form>
+
+
+    </div>
+</div>
+
+<!-- Modal -->
+  <form asp-action="useTemplate" asp-controller="Home" method="post">
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="checker">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">テンプレート選択</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            @if (Model.Templates2 != null)
+            {
+                    <div class="list-group mt-3">
+                        @foreach (var item in Model.Templates2)
+                        {
+                            
+                                <div class="list-group-item-light border border-dark rounded p-2">
+                                <li class="list-group-item">
+                                    <label class="w-100">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" value="@item.templateId" checked>
+                                    <div class="d-flex w-20 justify-content-between">
+                                        <h5 class="mb-1">タスク名：@item.taskName</h5>
+                                        
+                                    </div>
+
+                                    <div class="d-flex w-20 justify-content-between">
+                                        <p class="mb-1">チーム名：@item.teamName &emsp; 担当者：@item.managerName</p>
+                                        
+                                    </div>
+                                    <small>コメント：@item.comment</small>
+                                    </label>
+                                </li>
+                                </div>
+
+                            
+                            }
+                            </div>
+            }
+            
+            <div class="modal-footer">
+                    
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                <button type="submit" class="btn btn-primary">はい</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</form>

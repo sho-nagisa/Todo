@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Template View";
+}
+@section Scripts {
+    <script>
+        var deleteModal = document.getElementById('deleteconformModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var templateDeleteId = document.querySelectorAll('input[type="checkbox"]');
+            var output = "";
+            templateDeleteId.forEach((templateDelete) => {
+                if (templateDelete.checked) {
+                    output +=`<input name="targetId" type="hidden" value="${templateDelete.value}">`;
+                }
+            });
+            $('#copydeleteform').html(output);
+        });
+    </script>
+}
+
+@* 基本機能ボタン *@
+<div class="row row-cols-auto border-bottom">
+    <div class="col-9">
+        <h1>テンプレート一覧</h1>
+    </div>
+    <div class="col">
+        <button class="btn btn-outline-warning" onclick="location.href = './Template/TemplateAdd'">新規作成</button>
+    </div>
+    <div class="col">
+        <button class="btn btn-outline-dark" onclick="location.href = './Home'">
+            戻る
+        </button>　
+    </div>
+</div>
+
+<div class="mt-3">
+
+@model Todo.Models.Home.TemplateForm
+@if (Model.Templates != null)
+{
+    <form asp-action="deleteTemplate" asp-controller="Template" method="post">
+        @foreach (var item in Model.Templates)
+        {
+                <div class="list-group-item  border border-dark rounded p-2">
+                    <li class="list-group-item">
+                        <label class="w-100">
+                    <div class="d-flex w-20  justify-content-between">
+                    <h5 class="mb-1">タスク：@item.taskName</h5>
+                </div>
+
+                    <div class="d-flex w-20 justify-content-between">
+                        
+                    <p class="mb-1">チーム：@item.teamName &emsp; 担当者：@item.managerName</p>
+                    <input name="deleteId" type="checkbox" value="@item.templateId">
+
+                </div>
+                <small>コメント：@item.comment</small>
+                </label></li>
+            </div>
+            }
+    </form>
+        <div class="right">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteconformModal" class="btn btn-outline-danger mt-3">
+                削除
+            </button>
+        </div>
+   
+}
+</div>
+
+<!-- Modal -->
+<form asp-action="deleteTemplate" asp-controller="Template" method="post">
+<div class="modal fade" id="deleteconformModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                選択したテンプレートを削除しますか？
+            </div>
+            <div class="modal-footer">
+                <div hidden id="copydeleteform">
+
+                </div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                <button type="submit" class="btn btn-primary">はい</button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>

@@ -1,0 +1,120 @@
+﻿    @{
+         ViewData["Title"] = "Home Page";
+    }
+    @section Scripts{
+        <script>
+            var exampleModal = document.getElementById('exampleModal')
+            exampleModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget
+            var taskInfo = button.getAttribute('data-bs-whatever')
+            var taskinfo = taskInfo.split(',')
+            var taskname = taskinfo[0]
+            var taskid = taskinfo[1]
+            var modalFooterInput = exampleModal.querySelector('.modal-footer input')
+            var modalBodyInput = exampleModal.querySelector('.modal-body input')
+            modalBodyInput.value = "タスク名：" + taskname
+            modalFooterInput.value = taskid
+            })
+        </script>
+    }
+                 
+    @* 基本機能ボタン *@
+        <div class="row row-cols-auto border-bottom">
+            <div class="col-7">
+            <h1>Todoリスト</h1>
+            </div>
+            <div class="col">
+        <a class="btn btn-outline-warning" asp-controller="Home" asp-action="addTask">タスク追加</a>
+            </div>
+            <div class="col">
+               <button data-bs-toggle="modal" data-bs-target="#exampleModal2" class="btn btn-outline-primary">表示チーム選択</button>
+            </div>
+            <div class="col-2">
+        <a class="btn btn-outline-primary" asp-controller="Template" asp-action="TemplateAdd">テンプレート作成</a>
+            </div>
+        </div>
+
+                    @* タスク一覧 *@
+                    @model Todo.Models.Home.TaskForm
+                    @if (Model.Tasks != null)
+                    {
+                        <div class="list-group mt-3">
+                        @foreach (var item in Model.Tasks)
+                        {
+                            <div class="list-group-item-light border border-dark rounded p-2">
+                                    <div class="d-flex w-20 justify-content-between">
+                                        <h5 class="mb-1">タスク：@item.taskName</h5>
+                                        <small>期限：@item.limitTime</small>
+                                    </div>
+
+                                    <div class="d-flex w-20 justify-content-between">
+                                    <p class="mb-1">チーム：@item.teamName &emsp; 担当者：@item.managerName</p>
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=@item.taskName,@item.taskId>
+                                            完了
+                                        </button>
+                                    </div>
+                                    <small>コメント：@item.comment</small>
+                            </div>
+                    }
+                        </div>
+                    }
+
+
+
+
+                    <!-- Modal -->
+                     <form asp-action="finishTask" asp-controller="Home" method="post">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="confirm">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">完了確認</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+
+                            <input type="text" class="form-control col" id="task-title" readonly>
+                            <p>このタスクを完了しますか？</p>
+                        </div>
+                                <div class="modal-footer">
+                                    <input type="hidden" name="finishNum" />
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                                    <button type="submit" class="btn btn-primary">はい</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+
+            <!-- Modal -->
+             <form asp-action="filterTeam" asp-controller="Home" method="post">
+            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="checker">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">チーム変更</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                @if (Model.Teams != null)
+                {
+                        <div class="modal-body">
+                        @foreach (var item in Model.Teams)
+                        {
+                            <ul class="list-group">
+                                <li class="list-group-item"><label class="w-100">
+                                    <input class="form-check-input me-1" type="checkbox" value="@item.teamName" aria-label="..." name="filterTeams">
+                                    @item.teamName
+                                </label></li>
+                            </ul>
+                        }
+                        </div>
+                }
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">いいえ</button>
+                            <button type="submit" class="btn btn-primary">はい</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>

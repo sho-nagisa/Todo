@@ -1,0 +1,51 @@
+﻿@{
+	ViewData["Title"] = "Template Add";
+}
+@model Todo.Models.Home.TemplateForm
+<style>
+    h2{
+        text-align: left;
+    }
+</style>
+
+<h2>テンプレート作成</h2>
+<div>
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <form asp-action="TemplateAdd" asp-controller="Template" method="post">
+            <div class="text-danger">
+                @ViewData["error1"]
+            </div>
+            <div class="row">
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item col-4"><label asp-for="@Model.taskName">タイトル</label></li>
+                    <li class="list-group-item col-8"><input asp-for="@Model.taskName" class="form-control" type="text" maxlength="20" /></li>
+                </ul>
+            </div>
+            <div class="row">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item col-4"><label asp-for="@Model.teamName">チーム</label></li>
+                    <li class="list-group-item col-8"><input asp-for="@Model.teamName" class="form-control" type="text" maxlength="20" /></li>
+            </ul>
+            </div>
+
+            <div class="row">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item col-4"><label asp-for="@Model.managerName">担当者</label></li>
+                    <li class="list-group-item col^8"><input asp-for="@Model.managerName" class="form-control" type="text" maxlength="20" /></li>
+            </ul>
+            </div>
+
+            <div class="row">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item col-4"><label asp-for="@Model.comment">コメント</label></li>
+                    <li class="list-group-item col-8"><textarea asp-for="@Model.comment" class="form-control" type="text" maxlength="40"></textarea></li>
+            </ul>
+            </div>
+            <div class="text-center mt-3">
+                <a class="btn btn-outline-secondary" asp-controller="Template" asp-action="Index">キャンセル</a>
+                <button type="submit" class="btn btn-outline-warning">作成</button>
+            </div>
+        </form>
+         
+    </div>
+</div>

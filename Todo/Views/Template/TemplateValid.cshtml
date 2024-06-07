@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Template Valid";
+}
+@model Todo.Models.Home.TemplateForm
+
+<h2 style="text-align: left;">テンプレート編集フォーム</h2>
+<div>
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <form asp-action="TemplateValid" asp-controller="TemplateValid" method="post">
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item"><label asp-for="@Model.taskName">タイトル</label></li>
+                <li class="list-group-item"><input asp-for="@Model.taskName" class="form-control" type="text" /></li>
+            </ul>
+
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item"><label asp-for="@Model.teamName">チーム</label></li>
+                <li class="list-group-item"><input asp-for="@Model.teamName" class="form-control" type="text" /></li>
+            </ul>
+
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item"><label asp-for="@Model.managerName">担当者</label></li>
+                <li class="list-group-item"><input asp-for="@Model.managerName" class="form-control" type="text" /></li>
+            </ul>
+
+            <ul class="list-group list-group-horizontal">
+                <li class="list-group-item"><label asp-for="@Model.comment">コメント</label></li>
+                <li class="list-group-item"><input asp-for="@Model.comment" class="form-control" type="text" /></li>
+            </ul>
+        </form>
+
+
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">キャンセル</button>
+            <button type="submit" class="btn btn-outline-warning">追加</button>
+        </div>
+    </div>
+</div>
